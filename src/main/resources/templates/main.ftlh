@@ -45,9 +45,9 @@
     <div class="form-group">
         <label for="status">Status:</label>
         <select class="form-control" id="status" name="status" required>
-            <option value="TODO">Created</option>
-            <option value="IN_PROGRESS">In progress</option>
-            <option value="COMPLETED">Completed</option>
+            <option value="Created">Created</option>
+            <option value="In progress">In progress</option>
+            <option value="Completed">Completed</option>
         </select>
     </div>
     <input type="hidden" name="_csrf" value="${csrfToken}">
