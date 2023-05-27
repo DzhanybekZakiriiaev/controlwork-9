@@ -18,7 +18,7 @@ public class UserController {
         this.userMapper = userMapper;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public User createUser(@RequestBody RegisterDTO user) {
         return userMapper.create(user);
     }

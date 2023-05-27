@@ -29,14 +29,17 @@ public class UserMapper {
     }
 
     public User create(RegisterDTO userDTO) {
-        if (userService.findByEmail(SecurityConfig.getCurrentUserEmail()).isManager()) {
-            User user = new User();
-            user.setEmail(userDTO.getEmail());
-            user.setPassword(userDTO.getPassword());
-            user.setType(userDTO.getType());
-            return userService.save(user);
+        if(!userService.findByEmail(userDTO.getEmail()).equals(null)){
+            if (userService.findByEmail(SecurityConfig.getCurrentUserEmail()).isManager()) {
+                User user = new User();
+                user.setEmail(userDTO.getEmail());
+                user.setPassword(userDTO.getPassword());
+                user.setType(userDTO.getType());
+                return userService.save(user);
+            }
+            throw new NoAccessException("You do not have access to create a user.");
         }
-        throw new NoAccessException("You do not have access to create a user.");
+        throw new NoAccessException("User with email already exists.");
     }
 
 
@@ -62,8 +65,14 @@ public class UserMapper {
     }
 
     public UserDTO updateUser(Integer userId, User user) {
-        User updatedUser = userService.updateUser(userId, user);
-        return toDTO(updatedUser);
+        if(userService.getById(userId).equals(null)){
+            if (userService.findByEmail(SecurityConfig.getCurrentUserEmail()).isManager()) {
+                User updatedUser = userService.updateUser(userId, user);
+                return toDTO(updatedUser);
+            }
+            throw new NoAccessException("You do not have access to create a user.");
+        }
+        throw new NoAccessException("User with this id doesn't exist.");
     }
 
     public void deleteUser(Integer userId) {
