@@ -2,9 +2,11 @@
 CREATE TABLE IF NOT EXISTS users (
                         id SERIAL PRIMARY KEY,
                         email VARCHAR(25) NOT NULL,
-                        password VARCHAR(16) NOT NULL,
-                        type VARCHAR(20) NOT NULL
+                        password VARCHAR(80) NOT NULL,
+                        type VARCHAR(20) NOT NULL,
+                        enabled BOOLEAN NOT NULL DEFAULT true
 );
+
 
 
 CREATE TABLE IF NOT EXISTS tasks (

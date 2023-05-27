@@ -26,6 +26,7 @@
             <label for="password">Password:</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
+        <input type="hidden" name="_csrf" value="${csrfToken}">
         <button type="submit" class="btn btn-primary">Update User</button>
     </form>
 </div>
