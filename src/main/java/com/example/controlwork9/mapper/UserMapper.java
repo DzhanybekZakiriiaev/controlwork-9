@@ -9,6 +9,7 @@ import com.example.controlwork9.entity.User;
 import com.example.controlwork9.exception.NoAccessException;
 import com.example.controlwork9.service.TaskService;
 import com.example.controlwork9.service.UserService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -31,11 +32,14 @@ public class UserMapper {
     public User create(RegisterDTO userDTO) {
         if(!userService.findByEmail(userDTO.getEmail()).equals(null)){
             if (userService.findByEmail(SecurityConfig.getCurrentUserEmail()).isManager()) {
-                User user = new User();
-                user.setEmail(userDTO.getEmail());
-                user.setPassword(userDTO.getPassword());
-                user.setType(userDTO.getType());
-                return userService.save(user);
+             if (userDTO.getPassword().length()>16){
+                 User user = new User();
+                 user.setEmail(userDTO.getEmail());
+                 user.setPassword(new BCryptPasswordEncoder().encode(userDTO.getPassword()));
+                 user.setType(userDTO.getType());
+                 return userService.save(user);
+             }
+                throw new NoAccessException("Your password is too long.");
             }
             throw new NoAccessException("You do not have access to create a user.");
         }

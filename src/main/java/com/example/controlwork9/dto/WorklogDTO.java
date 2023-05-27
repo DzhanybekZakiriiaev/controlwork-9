@@ -6,7 +6,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WorklogDTO {
-    private Integer id;
     private Integer taskId;
     private String timeSpent;
     private String description;

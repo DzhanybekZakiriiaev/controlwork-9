@@ -36,6 +36,9 @@ $(document).ready(function() {
             data: JSON.stringify(formData),
             success: function(response) {
                 console.log('Task updated:', response);
+                if (newStatus === 'Completed') {
+                    createWorklog(taskId);
+                }
                 getTasks();
             },
             error: function(error) {
@@ -54,6 +57,27 @@ $(document).ready(function() {
             },
             error: function(error) {
                 console.error('Error deleting task:', error);
+            }
+        });
+    }
+
+    function createWorklog(taskId) {
+        var worklogData = {
+            taskId: taskId,
+            timeSpent: '',
+            description: ''
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/tasks/' + taskId + '/worklogs',
+            contentType: 'application/json',
+            data: JSON.stringify(worklogData),
+            success: function(response) {
+                console.log('Worklog created:', response);
+            },
+            error: function(error) {
+                console.error('Error creating worklog:', error);
             }
         });
     }

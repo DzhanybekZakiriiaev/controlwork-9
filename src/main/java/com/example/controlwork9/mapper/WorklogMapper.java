@@ -22,7 +22,6 @@ public class WorklogMapper {
 
     public WorklogDTO toDTO(Worklog worklog) {
         WorklogDTO dto = new WorklogDTO();
-        dto.setId(worklog.getId());
         dto.setTaskId(worklog.getTask().getId());
         dto.setTimeSpent(worklog.getTimeSpent());
         dto.setDescription(worklog.getDescription());
@@ -31,7 +30,6 @@ public class WorklogMapper {
 
     public Worklog toEntity(WorklogDTO dto) {
         Worklog worklog = new Worklog();
-        worklog.setId(dto.getId());
         Task task = new Task();
         task.setId(dto.getTaskId());
         worklog.setTask(task);
