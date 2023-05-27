@@ -33,14 +33,18 @@
 </div>
 
 <h2>Create Task</h2>
-<form id="createTaskForm">
+<form id="createTaskForm" enctype="multipart/form-data">
     <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" class="form-control" id="title" name="title" required>
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" required>
     </div>
     <div class="form-group">
-        <label for="description">Description:</label>
-        <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+        <label for="createdDate">Created Date:</label>
+        <input type="date" class="form-control" id="createdDate" name="createdDate" required>
+    </div>
+    <div class="form-group">
+        <label for="developerId">Developer ID:</label>
+        <input type="number" class="form-control" id="developerId" name="developerId" required>
     </div>
     <div class="form-group">
         <label for="status">Status:</label>
@@ -50,9 +54,13 @@
             <option value="Completed">Completed</option>
         </select>
     </div>
-    <input type="hidden" name="_csrf" value="${csrfToken}">
+    <div class="form-group">
+        <label for="attachment">Attachment:</label>
+        <input type="file" class="form-control-file" id="attachment" name="attachment" required>
+    </div>
     <button type="submit" class="btn btn-primary">Create Task</button>
 </form>
+
 
 <!-- Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

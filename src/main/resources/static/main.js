@@ -2,20 +2,23 @@ $(document).ready(function() {
     $('#createTaskForm').submit(function(event) {
         event.preventDefault();
 
-        var formData = {
-            title: $('#title').val(),
-            description: $('#description').val(),
-            status: $('#status').val()
-        };
+        var formData = new FormData();
+        formData.append('name', $('#title').val());
+        formData.append('createdDate', $('#createdDate').val());
+        formData.append('developerId', $('#developerId').val());
+        formData.append('status', $('#status').val());
+        formData.append('attachment', $('#attachment')[0].files[0]);
 
         $.ajax({
             type: 'POST',
             url: '/tasks',
-            contentType: 'application/json',
-            data: JSON.stringify(formData),
+            contentType: false,
+            processData: false,
+            data: formData,
             success: function(response) {
                 console.log('Task created:', response);
                 $('#createTaskForm')[0].reset();
+                uploadAttachment(response.id);
                 getTasks();
             },
             error: function(error) {
@@ -23,6 +26,25 @@ $(document).ready(function() {
             }
         });
     });
+
+    function uploadAttachment(taskId) {
+        var attachmentData = new FormData();
+        attachmentData.append('file', $('#attachment')[0].files[0]);
+
+        $.ajax({
+            type: 'POST',
+            url: '/tasks/' + taskId + '/attachments',
+            contentType: false,
+            processData: false,
+            data: attachmentData,
+            success: function(response) {
+                console.log('Attachment uploaded:', response);
+            },
+            error: function(error) {
+                console.error('Error uploading attachment:', error);
+            }
+        });
+    }
 
     function updateTask(taskId, newStatus) {
         var formData = {
@@ -64,8 +86,8 @@ $(document).ready(function() {
     function createWorklog(taskId) {
         var worklogData = {
             taskId: taskId,
-            timeSpent: '',
-            description: ''
+            timeSpent: calculateTimeSpent(taskId),
+            description: 'Worklog of task with id: ' + taskId
         };
 
         $.ajax({
@@ -81,6 +103,26 @@ $(document).ready(function() {
             }
         });
     }
+
+    function calculateTimeSpent(taskId) {
+        $.ajax({
+            type: 'GET',
+            url: '/tasks/' + taskId,
+            success: function(response) {
+                var createdAt = new Date(response.created_at);
+                var now = new Date();
+                var timeDifference = now.getTime() - createdAt.getTime();
+                var minutesDifference = Math.floor(timeDifference / (1000 * 60));
+                console.log('Time spent:', minutesDifference + ' minutes');
+                return minutesDifference + ' minutes';
+            },
+            error: function(error) {
+                console.error('Error getting task:', error);
+                return '';
+            }
+        });
+    }
+
 
     function getTasks() {
         $.ajax({
