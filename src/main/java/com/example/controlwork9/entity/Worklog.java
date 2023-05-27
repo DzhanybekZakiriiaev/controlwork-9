@@ -8,10 +8,11 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Table(name = "worklog")
 public class Worklog {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "task_id")

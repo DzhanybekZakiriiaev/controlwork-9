@@ -8,16 +8,17 @@ import javax.persistence.*;
 @Entity
 @Getter
 @Setter
+@Table(name = "attachments")
 public class Attachment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id")
     private Task task;
 
-    @Column(name = "filename", length = 255, nullable = false)
+    @Column(name = "filename", nullable = false)
     private String filename;
 
 }
