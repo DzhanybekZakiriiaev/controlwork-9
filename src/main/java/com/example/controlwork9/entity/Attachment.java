@@ -1,5 +1,6 @@
 package com.example.controlwork9.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,5 +21,4 @@ public class Attachment {
 
     @Column(name = "filename", nullable = false)
     private String filename;
-
 }
