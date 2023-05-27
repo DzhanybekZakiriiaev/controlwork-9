@@ -23,4 +23,7 @@ public class User {
     @Column(name = "type", length = 20, nullable = false)
     private String type;
 
+    public boolean isManager() {
+        return getType().equalsIgnoreCase("Manager");
+    }
 }
